@@ -1,0 +1,29 @@
+sudo: true
+language: java
+jdk: openjdk11
+
+before_install:
+        - chmod +x mvnw
+cache:
+        directories:
+                - $HOME/.m2
+
+branches:
+        only:
+                - master
+
+# Run tests & build projects
+script:
+        - (cd zuul-gateway && mvn test)
+        - (cd zuul-gateway && mvn clean package)
+
+# Slack Notifications
+notifications:
+        slack:
+                template:
+                        - "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository_slug}@%{branch} by %{author} %{result} in %{duration}"
+                rooms:
+                        - aj-vdw7889:d8sCDUQsrGFxKK0dROtUnLqm#general
+                        - aj-vdw7889:d8sCDUQsrGFxKK0dROtUnLqm#backend-spring-bookstore
+                on_success: always # default: always
+                on_failure: always # default: always
