@@ -16,6 +16,9 @@ branches:
 script:
         - (cd zuul-gateway && mvn test)
         - (cd zuul-gateway && mvn clean package)
+        - (cd eureka-server && mvn test)
+        - (cd user-service && mvn test)
+        - (cd book-service && mvn test)
 
 # Slack Notifications
 notifications:
