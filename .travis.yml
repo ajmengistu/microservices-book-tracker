@@ -5,28 +5,36 @@ jdk: openjdk11
 # before_install:
 #         - chmod +x mvnw
 cache:
-        directories:
-                - $HOME/.m2
+  directories:
+    - $HOME/.m2
 
 branches:
-        only:
-                - master
+  only:
+    - master
 
+addons:
+  sonarcloud:
+    organization: "ajmengistu"
+    token: $SONAR_TOKEN
+      # secure: $SONAR_TOKEN
+
+# build the project, run the tests with Jacoco coverage
+# and then execute the SonarCloud analysis.
 # Run tests & build projects
 script:
-        - (cd zuul-gateway && mvn test)
-        - (cd zuul-gateway && mvn clean package)
-        - (cd eureka-server && mvn test)
-        - (cd user-service && mvn test)
-        - (cd book-service && mvn test)
+  - (cd zuul-gateway && mvn test)
+  - (cd zuul-gateway && mvn clean package)
+  - (cd eureka-server && mvn test)
+  - (cd user-service && mvn clean verify jacoco:report sonar:sonar -Dsonar.projectKey=ajmengistu_backend-react-spring-ecommerce-bookstore)
+  - (cd book-service && mvn test)
 
 # Slack Notifications
 notifications:
-        slack:
-                template:
-                        - "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository_slug}@%{branch} by %{author} %{result} in %{duration}"
-                rooms:
-                        - aj-vdw7889:d8sCDUQsrGFxKK0dROtUnLqm#general
-                        - aj-vdw7889:d8sCDUQsrGFxKK0dROtUnLqm#backend-spring-bookstore
-                on_success: always # default: always
-                on_failure: always # default: always
+  slack:
+    template:
+      - "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository_slug}@%{branch} by %{author} %{result} in %{duration}"
+    rooms:
+      - aj-vdw7889:d8sCDUQsrGFxKK0dROtUnLqm#general
+      - aj-vdw7889:d8sCDUQsrGFxKK0dROtUnLqm#backend-spring-bookstore
+    on_success: always # default: always
+    on_failure: always # default: always

@@ -38,6 +38,9 @@ public class UserService {
      * @return The registered user.
      */
     public User registerNewUser(UserVM userVM) {
+        if (userRepository.findOneByUsername(userVM.getUsername()).isPresent())
+            throw new RuntimeException("Username " + userVM.getUsername() + " already used.");
+
         // check email must not already exist.
         User newUser = new User();
         newUser.setUsername(userVM.getUsername());
