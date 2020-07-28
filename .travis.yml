@@ -25,7 +25,7 @@ script:
   - (cd zuul-gateway && mvn test)
   - (cd zuul-gateway && mvn clean package)
   - (cd eureka-server && mvn test)
-  - (cd user-service && mvn clean verify jacoco:report sonar:sonar -Dsonar.projectKey=ajmengistu_backend-react-spring-ecommerce-bookstore)
+  - (cd user-service && mvn clean verify jacoco:report sonar:sonar -Dsonar.projectKey=ajmengistu_microservices-book-tracker-app)
   - (cd book-service && mvn test)
 
 # Slack Notifications
