@@ -1,6 +1,9 @@
 package com.company.bookservice.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import com.company.bookservice.entity.AlreadyReadBooks;
 import com.company.bookservice.repository.AlreadyReadBooksRepository;
@@ -15,12 +18,18 @@ public class AlreadyReadBooksService {
         this.alreadyReadBooksRepository = alreadyReadBooksRepository;
     }
 
-    public AlreadyReadBooks saveAlreadyReadBooks(String bookId, long l) {
+    public AlreadyReadBooks saveAlreadyReadBooks(String bookId, long userId) {
         AlreadyReadBooks book = new AlreadyReadBooks();
         book.setBookId(bookId);
-        book.setUserId(l);
+        book.setUserId(userId);
         book.setCreatedDate(new Date());
-        // check book does not already exist
         return alreadyReadBooksRepository.save(book);
+    }
+
+    public List<AlreadyReadBooks> getAllAlreadyBooksByUser(Long userId) {
+        Optional<List<AlreadyReadBooks>> books = alreadyReadBooksRepository.findAllByUserId(userId);
+        if (!books.isPresent())
+            return new ArrayList<AlreadyReadBooks>();
+        return books.get();
     }
 }
