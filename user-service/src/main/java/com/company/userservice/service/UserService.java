@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
 
     private final UserRepository userRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
@@ -56,5 +57,9 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public Long getCurrentlyAuthenticatedUserId(String username) {
+        return userRepository.findOneByUsername(username).get().getId();
     }
 }

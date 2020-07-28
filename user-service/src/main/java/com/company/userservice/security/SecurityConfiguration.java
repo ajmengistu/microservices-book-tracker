@@ -9,12 +9,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * Web App Security Configuration.
  */
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    private final JWTFilter jwtFilter;
+
+    public SecurityConfiguration(JWTFilter jwtFilter) {
+        this.jwtFilter = jwtFilter;
+    }
 
     @Bean
     public PasswordEncoder PasswordEncoder() {
@@ -42,12 +49,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // Tell Spring Security to use your OWN custom UsernamePasswordAuthenticationFilter,
         // to determine if the current client/user making the request is authenticated,
         // by populating the SpringContextHolder object with an Authentication object.
-            // .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-            // .antMatchers("/api/secure").authenticated()
             .antMatchers("/**").permitAll();
     }
 }
