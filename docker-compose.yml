@@ -1,0 +1,29 @@
+version: "3"
+services:
+  eureka-server:
+    build: ./eureka-server
+    image: eureka-server:latest
+    ports:
+      - "8761:8761"
+    networks:
+      - spring-cloud
+  zuul-gateway:
+    build: ./zuul-gateway
+    image: zuul-gateway:latest
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-server
+    networks:
+      - spring-cloud
+  # book-service:
+  #   build: ./book-service
+  #   image: book-tracker-app/book-service:latest
+  #   ports:
+  #     - "9091:9091"
+  #   depends_on:
+  #     - eureka-server
+  #   networks:
+  #     - spring-cloud
+networks:
+  spring-cloud:
