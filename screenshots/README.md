@@ -2,13 +2,13 @@
 
 ## Table of Contents
 
-- Objective
-- Tools & Technologies Used
-- Database Schema
-- Microservice Architecture
-- Project
-- Testing
-- Conclusion
+- objective
+- tools & technologies used
+- database schema
+- microservice architecture
+- project
+- testing
+- conclusion
 
 ## Objective
 
@@ -52,11 +52,8 @@
 ![Screenshot](./screenshots/microservice-architecture.png)
 
 <p>
-
 </p>
 
 ## Project
-
 ## Testing
-
 ## Conclusion
